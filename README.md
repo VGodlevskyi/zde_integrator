@@ -6,4 +6,4 @@
 
 ## Decision in js-node project index.js.
 ### for install project - 'npm i'
-### for star project - 'npm start'
+### for start project - 'npm start'
