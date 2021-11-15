@@ -13,8 +13,11 @@ Date.prototype.dayTo = function (d2) {
 
 const d1 = new Date('2021,11,18');
 const d2 = new Date('2021,11,28');
-
-console.log(d1.dayTo(d2));
+console.log("Task1");
+console.log("-----------------------------------------------------------------------------------");
+console.log("Input values: Day 1 -", d1, "Day2-", d2);
+console.log("result of function dayTo is - ", d1.dayTo(d2), " full days");
+console.log("");
 
 /*
 Task2
@@ -28,18 +31,22 @@ Please order by Total and note that input array shall remain intact.
 const orderedSales = function (arrayOfSales) {
     resultArr = arrayOfSales
         .map(item => ({...item, Total: item.amount * item.quantity}))
-        .sort((a, b) => a.mult > b.mult ? 1 : -1);
+        .sort((a, b) => a.Total > b.Total ? -1 : 1);
     return resultArr;
 }
 
-const input = [
+const inputArray = [
     {amount: 50000, quantity: 44},
-    {amount: 100000, quantity: 5},
-    {amount: 3000, quantity: 100},
-    {amount: 2, quantity: 2},
+    {amount: 50000, quantity: 50},
+    {amount: 3000, quantity: 10000},
+    {amount: 2, quantity: 2000},
 ]
 
-console.log(orderedSales(input));
+console.log("Task2");
+console.log("-----------------------------------------------------------------------------------");
+console.log("Input array - ", inputArray);
+console.log("result array -", orderedSales(inputArray));
+console.log("");
 
 /*
 Task3
@@ -78,6 +85,12 @@ const src = {
 
 const proto = {
     prop11: {
+        prop22: null
+    }
+}
+
+const proto2 = {
+    prop11: {
         prop22: {prop31: null}
     }
 }
@@ -85,12 +98,17 @@ const proto = {
 const res = {
     prop11: {
         prop22: {
-            prop31: 31,
-            prop32: 32
+            prop31: 31, prop32: 32
         }
     }
 }
 
-console.dir(objectProjection(src, proto));
+console.log("Task3");
+console.log("-----------------------------------------------------------------------------------");
+console.log("Src object - ", src);
+console.log("Proto object case1 - ", proto);
+console.log("Result of function objectProjection case1 - ", objectProjection(src, proto));
+console.log("Proto object case2 - ", proto2);
+console.log("Result of function objectProjection case2 - ", objectProjection(src, proto2));
 
 
