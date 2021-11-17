@@ -2,10 +2,11 @@
   "name": "zde-integrator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "js/task1.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node js/index.js"
+    "start": " node js/task1.js && node js/task2.js && node js/task3.js"
+
   },
   "keywords": [],
   "author": "Godlevskyi Vitalii",
