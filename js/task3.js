@@ -87,7 +87,6 @@ const objectProjection = (src, proto, buffer = {}, bufferKey=null, fullBuffer = 
 
         //checking if final situation - filling result
         if (((typeof proto[key] !== 'object') || proto[key] === null)) {
-            console.log("fullBuffer--->", fullBuffer, "buffer--->", buffer);
             fullBuffer[bufferKey]=buffer;
             result = {
                 ...result,
@@ -95,10 +94,9 @@ const objectProjection = (src, proto, buffer = {}, bufferKey=null, fullBuffer = 
             }
             buffer = {}
         }
-        console.log("result---->", result)
 
         if (typeof buffer[key] === 'object') objectProjection(src[key], proto[key], buffer[key], bufferKey, fullBuffer, result);
-        console.log("result with rec---->", result)
+        console.log("result ---->", result)
     }
     return result;
 }
@@ -112,7 +110,7 @@ console.log("Expected result of objectProjection case1 -  { prop11: { prop22: { 
 
 console.log("Proto object case2 - ", proto2);
 console.log("Result of function objectProjection case2 - ", objectProjection(src, proto2));
-console.log("Expected result of objectProjection case2 -  {}\n");
+console.log("Expected result of objectProjection case2 -  { prop11: { prop22: { prop31: {}}}\n");
 
 console.log("Proto object case3 - ", proto3);
 console.log("Result of function objectProjection case3 - ", objectProjection(src, proto3));
@@ -121,11 +119,3 @@ console.log("Expected result of objectProjection case3 -  { prop12: 12 }\n");
 console.log("Proto object case4 - ", proto4);
 console.log("Result of function objectProjection case4 - ", objectProjection(src, proto4));
 console.log("Expected result of objectProjection case4 -  {}\n");
-
-
-// function objectCleaner(obj) {
-//     Object.keys(obj).forEach(key => {
-//         if (obj[key] && typeof obj[key] === 'object' && objectCleaner(obj[key]) === null) delete obj[key];
-//     });
-//     return Object.keys(obj).length ? obj : null;
-// }
