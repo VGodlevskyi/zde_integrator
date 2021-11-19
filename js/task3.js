@@ -31,10 +31,10 @@ const src = {
         }
     },
     prop12: 12,
-    prop13: {
-        prop14: {
-            prop31: 22,
-            prop32: 32
+    prop30: {
+        prop31: {
+            prop311: 22,
+            prop312: 32
         },
         prop15: 23
     }
@@ -43,7 +43,9 @@ const src = {
 const proto1 = {
     prop11: {
         prop22: null
-    }
+    },
+    prop12: null
+
 }
 
 const proto2 = {
@@ -66,14 +68,13 @@ const proto4 = {
 
 }
 
-const objectProjection = (src, proto, buffer = {}, bufferKey=null, fullBuffer = {}, result = {}) => {
+const objectProjection = (src, proto, buffer = {src}, bufferKey = null, fullBuffer = {}, result = {}) => {
     for (const key in proto) {
         //Checking if srcObject exist
         if (!src[key]) continue;
 
-        //Checking and rewrite  bufferKey
-        if (bufferKey===null) bufferKey=key;
-        fullBuffer[bufferKey]={}
+        //Filling fullBuffer
+        bufferKey === null ? fullBuffer[key] = {} : fullBuffer[bufferKey] = {}
 
         //Cleaning buffer - delete all key, which are not in proto
         for (const keyB in buffer) {
@@ -81,22 +82,22 @@ const objectProjection = (src, proto, buffer = {}, bufferKey=null, fullBuffer = 
         }
 
         // filling buffer[key] on src
-        if (typeof src[key] === 'object'){
-            buffer[key]={...src[key]}
-        }else buffer=src[key]
+        if (typeof src[key] === 'object') {
+            buffer[key] = {...src[key]}
+        } else {
+            buffer[key] = src[key]
+        }
 
         //checking if final situation - filling result
         if (((typeof proto[key] !== 'object') || proto[key] === null)) {
-            fullBuffer[bufferKey]=buffer;
+            bufferKey === null ? fullBuffer[key] = buffer[key] : fullBuffer[bufferKey] = buffer;
             result = {
                 ...result,
                 ...fullBuffer
             }
             buffer = {}
         }
-
         if (typeof buffer[key] === 'object') objectProjection(src[key], proto[key], buffer[key], bufferKey, fullBuffer, result);
-        console.log("result ---->", result)
     }
     return result;
 }
@@ -106,7 +107,7 @@ console.log("-------------------------------------------------------------------
 console.log("Src object - ", src);
 console.log("Proto object case1 - ", proto1);
 console.log("Result of function objectProjection case1 - ", objectProjection(src, proto1));
-console.log("Expected result of objectProjection case1 -  { prop11: { prop22: { prop31: 31, prop32: 32 } } }\n")
+console.log("Expected result of objectProjection case1 -  { prop11: { prop22: { prop31: 31, prop32: 32 },  prop12: 12 } }\n")
 
 console.log("Proto object case2 - ", proto2);
 console.log("Result of function objectProjection case2 - ", objectProjection(src, proto2));
