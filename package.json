@@ -5,7 +5,7 @@
   "main": "js/task1.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": " node js/task1.js && node js/task2.js && node js/task3.js"
+    "start": " node js/task3.js"
 
   },
   "keywords": [],
