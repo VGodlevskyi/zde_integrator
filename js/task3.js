@@ -56,35 +56,27 @@ const proto4 = {
     prop12: {prop15: {prod14: 12}},
 
 }
+
 const objectProjection = (src, proto, buffer = {}, result = {}) => {
     for (const key in proto) {
+        console.log("result begin--------", result)
         if (!src[key]) continue;
-        console.log("key, obj[key], proto[key]----", key, src[key], proto[key])
+        buffer[key] = typeof src[key] === 'object' ? {...src[key]} : src[key];
 
-        if (((proto[key] === null || typeof proto[key] !== 'object') && src[key])) {
-            buffer[key] = typeof src[key] === 'object' ? {...src[key]} : src[key];
-            console.log("buffer", buffer)
+        if (((typeof proto[key] !== 'object') || proto[key]===null)) {
+            console.log("условие выхода")
             result = {
                 ...result,
                 ...buffer
             }
-            console.log("result", result)
             buffer = {}
         }
-        if (typeof proto[key] === 'object' && src[key]) {
-            buffer[key] = typeof src[key] === 'object' ? {...src[key]} : src[key];
-        }
-
-        if (typeof proto[key] === 'object' && typeof src[key] !== 'object') {
-            buffer = {};
-            continue;
-        }
-
+        console.log("buffer", buffer, "result", result)
         if (typeof buffer[key] === 'object') objectProjection(src[key], proto[key], buffer[key], result);
     }
+    console.log("result end--------", result)
     return result;
 }
-
 
 console.log("Task3");
 console.log("-----------------------------------------------------------------------------------");
