@@ -29,3 +29,39 @@ console.log("-------------------------------------------------------------------
 console.log("Input array - ", inputArray);
 console.log("result array -", orderedSales(inputArray, 5 ));
 console.log("");
+
+const objectProjection = (srcObj, protoObj, buffer = {srcObj}, root = null, fullBuffer = {}, result = {}) => {
+    for (const key in protoObj) {
+        //Checking if srcObject exist
+        if (!srcObj[key]) continue;
+
+        //Filling fullBuffer
+        if (root === null) fullBuffer[key] = {};
+        else fullBuffer[root] = {};
+
+
+        //Cleaning buffer - delete all key, which are not in proto
+        for (const root in buffer) {
+            if (root !== key) delete buffer[root]
+        }
+
+        // filling buffer[key] on src
+        if (typeof srcObj[key] === 'object') {
+            buffer[key] = {...srcObj[key]}
+        } else {
+            buffer[key] = srcObj[key]
+        }
+
+        //checking if final situation - filling result
+        if ((typeof protoObj[key] !== 'object') || srcObj[key] === null) {
+            root === null ? fullBuffer[key] = buffer[key] : fullBuffer[root] = buffer;
+            result = {
+                ...result,
+                ...fullBuffer
+            }
+            buffer = {}
+        }
+        if (typeof buffer[key] === 'object') objectProjection(srcObj[key], protoObj[key], buffer[key], key, fullBuffer, result);
+    }
+    return result;
+}
