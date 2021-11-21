@@ -113,15 +113,18 @@ const proto4 = {
 
 }
 //v4
-const objectProjection = (src, proto, result = {}) => {
-    let buffer = {}
+const objectProjection = (src, proto, buffer={},result = {}) => {
 
-    for (protoKey in proto) {
-        if (src.hasOwnProperty(protoKey)) buffer[protoKey] = src[protoKey];
-    }
+    // for (protoKey in proto) {
+    //     if (src.hasOwnProperty(protoKey)) {
+    //         buffer[protoKey] = src[protoKey];}
+    // }
+
+
     console.log("buffer---", buffer)
     for (const key in proto) {
         if (!src[key]) continue;
+        buffer[key]={}
         if (proto[key] === null) {
             buffer[key] = typeof src[key] === 'object' ? {...src[key]} : src[key];
             result = {
@@ -133,14 +136,14 @@ const objectProjection = (src, proto, result = {}) => {
 
             result = {
                 ...result,
-                [key]: buffer[key]
+                [key]: src[key]
             }
         }
-        if (typeof proto[key] === 'object' && typeof proto[key] !== null) objectProjection(src[key], proto[key], result);
+        if (typeof proto[key] === 'object' && typeof proto[key] !== null)
+            objectProjection(src[key], proto[key], buffer[key],result);
     }
     return result;
 }
-
 
 console.log("Task3");
 console.log("-----------------------------------------------------------------------------------");
