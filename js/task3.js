@@ -41,22 +41,21 @@ const src = {
 }
 
 const proto1 = {
-    prop11: {
-        prop22: {}
-    }
-
+    prop11: {}
 }
 
 const proto2 = {
     prop11: {
-        prop21: null
-    },
+        prop21: 1},
     prop12: null
 }
 
 const proto3 = {
     prop11: {
-        prop21:1
+        prop21:1,
+        prop22: {
+            prop33: 1
+        }
     },
     prop12: 32
 }
@@ -64,6 +63,13 @@ const proto3 = {
 const proto4 = {
     prop12: {
         prop15: null
+    },
+    prop11: {
+        prop22: {
+            prop31: {
+                prop41:41
+            }
+        }
     }
 }
 
@@ -72,7 +78,7 @@ console.log("-------------------------------------------------------------------
 console.log("Src object - ", src);
 console.log("Proto object case1 - ", proto1);
 console.log("Result of function objectProjection case1 - ", objectProjection(src, proto1));
-console.log("Expected result of objectProjection case1 -  { prop11: { prop22: { prop31: {}, prop32: 32 } } }\n")
+console.log("Expected result of objectProjection case1 -  { prop11: { prop21: 211, prop22: { prop31: {}, prop32: 32 } } }\n")
 
 console.log("Proto object case2 - ", proto2);
 console.log("Result of function objectProjection case2 - ", objectProjection(src, proto2));
