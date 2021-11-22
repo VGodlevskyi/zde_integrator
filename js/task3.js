@@ -19,9 +19,11 @@ const objectProjection = (srcObj, protoObj, bufferObj = {}, root = null) => {
                 bufferObj[key] = srcObj[key]
 
             result = {
+                ...result,
                 ...bufferObj
             }
-            bufferObj = {}
+
+            continue;
         }
 
         if (root !== null) bufferObj[root] = {[key]: {}};
@@ -95,15 +97,15 @@ console.log("Src object - ", src);
 console.log("Proto object case1 - ", proto1);
 console.log("Result of function objectProjection case1 - ", objectProjection(src, proto1));
 console.log("Expected result of objectProjection case1 -  { prop11: { prop21: 211, prop22: { prop31: {}, prop32: 32 } } }\n")
-
+result = {}
 console.log("\nProto object case2 - ", proto2);
 console.log("Result of function objectProjection case2 - ", objectProjection(src, proto2));
 console.log("Expected result of objectProjection case2 -  { prop12: 12 }\n");
-
+result = {}
 console.log("\nProto object case3 - ", proto3);
 console.log("Result of function objectProjection case3 - ", objectProjection(src, proto3));
 console.log("Expected result of objectProjection case3 -  { prop11: { prop22: { prop31: {} } } }\n");
-
+result = {}
 console.log("\nProto object case4 - ", proto4);
 console.log("Result of function objectProjection case4 - ", objectProjection(src, proto4));
 console.log("Expected result of objectProjection case4 -  { prop11: { prop22: { prop31: {} } } }\n");
