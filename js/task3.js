@@ -15,20 +15,22 @@ const objectProjection = (srcObj, protoObj, bufferObj = {}, root = null) => {
         if (protoObj[key] === null || typeof protoObj[key] !== 'object' || Object.keys(protoObj[key]).length === 0) {
             if (root !== null) {
                 findAndFillRoot(bufferObj, root, {[key]: srcObj[key]})
-            } else {
+            } else
                 bufferObj[key] = srcObj[key]
-            }
+
             result = {
                 ...bufferObj
             }
             bufferObj = {}
-        } else {
-            if (root !== null) {
-                bufferObj[root] = {[key]: {}};
-            } else findAndFillRoot(bufferObj, root, {[key]: {}})
-            if (typeof protoObj[key] === 'object')
-                objectProjection(srcObj[key], protoObj[key], bufferObj, key);
         }
+
+        if (root !== null) bufferObj[root] = {[key]: {}};
+
+        findAndFillRoot(bufferObj, root, {[key]: {}})
+
+        if (typeof protoObj[key] === 'object')
+            objectProjection(srcObj[key], protoObj[key], bufferObj, key);
+
     }
     return result
 }
@@ -65,7 +67,7 @@ const proto2 = {
             }
         }
     },
-    prop12:null
+    prop12: null
 }
 
 const proto3 = {
