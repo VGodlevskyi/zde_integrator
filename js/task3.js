@@ -4,29 +4,44 @@ Develop a program “Object Projection”. Input: any JSON object; prototype obj
 Projected object structure shall be intersection of source object and prototype object structures.
 Values of properties in projected object shall be the same as values of respective properties in source object.
  */
+let res2={}
 const objectProjection = (srcObj, protoObj, bufferObj = {}, root = null, result = {}) => {
 
     for (const key in protoObj) {
         if (!srcObj[key]) continue;
 
-        if (protoObj[key] === null || typeof protoObj[key] !== 'object' ||  Object.keys(protoObj[key]).length == 0 ) {
+        if (typeof protoObj[key]==='object' && typeof  srcObj[key]!=='object') bufferObj={}
+
+        if (protoObj[key] === null || typeof protoObj[key] !== 'object' || Object.keys(protoObj[key]).length == 0) {
             if (root !== null) {
-                bufferObj[root] = {[key]: srcObj[key]};
-                bufferObj[root][key] = typeof srcObj[key] === 'object' ? {...srcObj[key]} : srcObj[key];
+                findAndFillRoot(bufferObj, root, {[key]: srcObj[key]})
             } else {
                 bufferObj[key] = srcObj[key]
             }
-            result = {
+            res2 = {
                 ...bufferObj
             }
-            return bufferObj;
+            bufferObj={}
+            // return result;
         } else {
-
+            if (root !== null) {
+                bufferObj[root] = {[key]: {}};
+            } else  findAndFillRoot(bufferObj, root, {[key]: {}})
             if (typeof protoObj[key] === 'object' && typeof protoObj[key] !== null)
                 objectProjection(srcObj[key], protoObj[key], bufferObj, key, result);
         }
     }
-    return bufferObj;
+
+   return res2
+}
+
+const findAndFillRoot = (obj, root, value) => {
+    for (const key in obj) {
+        if (key == root) {
+            obj[key] = value;
+            return
+        } else findAndFillRoot(obj[key], root, value);
+    }
 }
 
 const src = {
@@ -46,29 +61,30 @@ const proto1 = {
 
 const proto2 = {
     prop11: {
-        prop21: 1},
+        prop22: {
+            prop31: {
+                prop41: 1
+            }
+        }
+    },
     prop12: null
 }
 
 const proto3 = {
     prop11: {
-        prop21:1,
         prop22: {
-            prop33: 1
+            prop32: 1,
         }
     },
-    prop12: 32
+    prop12: {
+        prop15: null
+    }
 }
 
 const proto4 = {
-    prop12: {
-        prop15: null
-    },
     prop11: {
         prop22: {
-            prop31: {
-                prop41:41
-            }
+            prop31: null
         }
     }
 }
@@ -80,17 +96,17 @@ console.log("Proto object case1 - ", proto1);
 console.log("Result of function objectProjection case1 - ", objectProjection(src, proto1));
 console.log("Expected result of objectProjection case1 -  { prop11: { prop21: 211, prop22: { prop31: {}, prop32: 32 } } }\n")
 
-console.log("Proto object case2 - ", proto2);
+console.log("\nProto object case2 - ", proto2);
 console.log("Result of function objectProjection case2 - ", objectProjection(src, proto2));
-console.log("Expected result of objectProjection case2 -  { prop11: { prop21: 211 }, prop12: 12 }\n");
+console.log("Expected result of objectProjection case2 -  { prop12: 12 }\n");
 
-console.log("Proto object case3 - ", proto3);
+console.log("\nProto object case3 - ", proto3);
 console.log("Result of function objectProjection case3 - ", objectProjection(src, proto3));
-console.log("Expected result of objectProjection case3 -  { prop11: { prop21: 211 }, prop12: 12 }\n");
+console.log("Expected result of objectProjection case3 -  { prop11: { prop22: { prop32: 32 } } }\n");
 
-console.log("Proto object case4 - ", proto4);
+console.log("\nProto object case4 - ", proto4);
 console.log("Result of function objectProjection case4 - ", objectProjection(src, proto4));
-console.log("Expected result of objectProjection case4 -  {}\n");
+console.log("Expected result of objectProjection case4 -  { prop11: { prop22: { prop31: {} } } }\n");
 
 
 //V1
