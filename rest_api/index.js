@@ -29,18 +29,17 @@ getIntervalsArray = (id, from, to) => {
             console.log(`statusCode: ${res.statusCode}`)
             const data = [];
             res.on('data', d => {
-                process.stdout.write(d)
+                data.push(d);
+                const r = JSON.parse(data.join());
+                if(r) resolve(r); else reject(r)
             })
-
         })
         req.on('error', error => {
             reject(error);
-            console.error(error)
         })
         req.write(data);
         req.end();
     })
-
 }
 
 const from = new Date('2021-11-01');
