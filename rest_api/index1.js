@@ -1,40 +1,53 @@
 const https = require('https');
+require('dotenv').config();
 
-const id = 'a9bcljiruvd4h8i83v12iil8uk@group.calendar.google.com';
-// POST https://www.googleapis.com/calendar/v3/freeBusy
+const API_KEY = process.env.API_KEY;
+const myGoogleCalId = process.env.myGoogleCalId;
+
 const host = 'www.googleapis.com';
-const path = '/calendar/v3/freeBusy';
+const path = '/calendar/v3/freeBusy/';
 
-getArrayIntervals = (id, from, to) => {
-    const data = new TextEncoder().encode(JSON.stringify({
+getIntervalsArray = (id, from, to) => {
+    const data = JSON.stringify({
         timeMin: from,
         timeMax: to,
-        items: [{id: id}],
-    }));
+        items: [{id: myGoogleCalId}],
+    })
 
     const options = {
         hostname: host,
-        port: 443,
-        path: path,
+        path: `${path}?key=${API_KEY}`,
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Content-Length': data.length
         }
     }
-    return new Promise(() => {
+
+    return new Promise((resolve, reject) => {
         const req = https.request(options, res => {
             console.log(`statusCode: ${res.statusCode}`)
-
+            const data = [];
             res.on('data', d => {
                 process.stdout.write(d)
             })
+
         })
         req.on('error', error => {
+            reject(error);
             console.error(error)
         })
-
         req.write(data);
         req.end();
     })
+
 }
+
+const from = new Date('2021-11-01');
+const to = new Date('2021-12-31');
+getIntervalsArray(myGoogleCalId, from.toISOString(), to.toISOString())
+    .then(r => {
+        console.log(r.calendars[myGoogleCalId]);
+            })
+    .catch(e => console.log(e));
+

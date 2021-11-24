@@ -4,6 +4,50 @@ Develop a program “Object Projection”. Input: any JSON object; prototype obj
 Projected object structure shall be intersection of source object and prototype object structures.
 Values of properties in projected object shall be the same as values of respective properties in source object.
  */
+
+// function objProj(src, proto) {
+//     let res = null;
+//     for (const key in proto) {
+//         if (src.hasOwnProperty(key)) {
+//             if (typeof proto[key] === "object" ) {
+//                 const newRes = objProj(src[key], proto[key]);
+//                 if (newRes) {
+//                     if (!res) res = {};
+//                     res[key] = newRes;
+//                 }
+//             } else {
+//                 if (!res) res = {};
+//                 res[key] = src[key];
+//             }
+//         }
+//     }
+//     return res;
+// }
+//
+// function __objProj1(src, proto) {
+//     let res = null;
+//     for (const key in src) {
+//         if (proto.hasOwnProperty(key)) {
+//             if (typeof proto[key] === "object" && Object.keys(proto[key]).length) {
+//                 const newRes = objProj1(src[key], proto[key]);
+//                 if (newRes) {
+//                     if (!res) res = {};
+//                     res[key] = newRes;
+//                 }
+//             } else {
+//                 if (!res) res = {};
+//                 res[key] = src[key];
+//             }
+//         }
+//     }
+//     return res;
+// }
+//
+//
+// function objectProjectionEtalon(src, proto) {
+//     return __objProj1(src, proto) || {};
+// }
+
 let result = {}
 const objectProjection = (srcObj, protoObj, bufferObj = {}, root = null) => {
 

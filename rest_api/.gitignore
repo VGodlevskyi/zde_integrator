@@ -1,0 +1,5 @@
+.idea/**/*
+*.xml
+*.iml
+.env
+node_modules/**/*
